@@ -1,10 +1,14 @@
+var reversi = require('./reversi.js');
+
 var express = require('express');
 var app = express();
 
 app.get('/', function (req, res) {
-  res.send("35");
+    var turno = req.query.turno;
+    var estado = req.query.estado;
+    res.send(reversi.siguiente_movimiento(turno, estado))
 });
 
-var port = process.env.PORT || 3000;
+var puerto = process.env.PORT || 3000;
 
-app.listen(port);
+app.listen(puerto);
