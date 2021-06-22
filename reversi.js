@@ -99,7 +99,7 @@ function es_posible(movimiento,jugador,tablero){
     for(var i = 0; i < direcciones.length; i++){
         var direccion = direcciones[i]
         //console.log(direccion+"diredire")
-        if(tablero[movimiento] && encontrar_linea(movimiento,jugador,tablero,direccion,1)!= null){
+        if(tablero[movimiento] == VACIO && encontrar_linea(movimiento,jugador,tablero,direccion,1)!= null){
             return true
         }
     }
