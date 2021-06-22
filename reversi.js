@@ -11,7 +11,7 @@ function siguiente_movimiento(jugador, estado) {
     tablero = llenar_tablero(estado)
     movimiento_minimax_h1 = minimax(jugador,tablero,3,peso_por_casilla)
     //movimiento_minimax_h2 = minimax(jugador,5,puntuacion,tablero)
-    return (movimiento_minimax_h1[0])
+    return (movimiento_minimax_h1[1])
     //console.log(movimiento_minimax_h2)
 }
 
@@ -107,7 +107,6 @@ function es_posible(movimiento,jugador,tablero){
 }
 
 function movimientos_posibles(jugador, tablero){
-    imprimir_tablero(tablero)
     var movimientos = []
     var columna = 1;
     for (var i = 11; i < 89; i++) {
@@ -118,7 +117,7 @@ function movimientos_posibles(jugador, tablero){
             i = i+2;
         }
     }
-    //console.log(movimientos)
+    console.log(movimientos)
     return movimientos;
 }
 
@@ -127,19 +126,20 @@ function mover(movimiento,jugador,tablero){
     tablero[movimiento] = jugador
     for(var i = 0; i < direcciones.length; i++){
         var d = direcciones[i]
-        convertir(movimiento,jugador,tablero,d)
+        tablero = convertir(movimiento,jugador,tablero,d)
     }
     return tablero
 }
 
 function convertir(movimiento,jugador,tablero,direccion){
     var linea = encontrar_linea(movimiento,jugador,tablero,direccion,2)
-    if(linea==null) return 
+    if(linea==null) return tablero
     var casilla = movimiento + direccion
     while(casilla!=linea){
         tablero[casilla] = jugador
         casilla += direccion
     }
+    return tablero
 }
 
 //Algoritmos
@@ -166,26 +166,21 @@ function minimax(jugador,tablero,profundidad,heuristica){
         }
         return [valor(tablero),null]
     }
-    var cantidades = []
+    var mayor = [-Infinity,0]
     for(var i = 0; i<movimientos.length; i++){
-        m = movimientos[i]
-        var move = valor(mover(m,jugador,[...tablero]))
-        /*if(isNaN(move)){
-            console.log("---------------")
-            console.log(jugador)
-            console.log(imprimir_tablero(tablero))
-            console.log(profundidad)
-            console.log("---------------")
-        }*/
-        cantidades.push(move)
+        var m = movimientos[i]
+        var val = valor(mover(m,jugador,[...tablero]));
+        if(mayor[0] < val){
+            mayor[0] = val;
+            mayor[1] = m;
+        }
+
     }
-    console.log(cantidades)
-    return [cantidades[0],null]
+    console.log(mayor)
+    return mayor
 }
 
 function imprimir_tablero(tablero){
-    console.log("-----")
-    console.log(tablero)
     var columna = 1;
     var linea = "";
     for (var i = 11; i < 89; i++) {
