@@ -11,7 +11,7 @@ function siguiente_movimiento(jugador, estado) {
     tablero = llenar_tablero(estado)
     movimiento_minimax_h1 = minimax(jugador,tablero,3,peso_por_casilla)
     //movimiento_minimax_h2 = minimax(jugador,5,puntuacion,tablero)
-    return (movimiento_minimax_h1)
+    return (movimiento_minimax_h1[0])
     //console.log(movimiento_minimax_h2)
 }
 
