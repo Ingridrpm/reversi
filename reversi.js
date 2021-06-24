@@ -3,7 +3,7 @@ const NEGRO = "1";
 const VACIO = ".";
 const FUERA = "*";
 var direcciones = new Array(-10, 10, -1, 1, -9, 11, 9, -11)
-var prof = 5;
+var prof = 6;
 
 function siguiente_movimiento(jugador, estado) {
     //0 = blanca
@@ -13,7 +13,9 @@ function siguiente_movimiento(jugador, estado) {
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
     movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
     
-    if(movimiento_minimax_h1 == movimiento_minimax_h2) return movimiento_minimax_h1[1];
+    if(movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
+
+
     var punteo_h1 = peso_por_casilla(jugador,mover(movimiento_minimax_h1[1], jugador, [...tablero]))
     var punteo_h2 = peso_por_casilla(jugador,mover(movimiento_minimax_h2[1], jugador, [...tablero]))
 
@@ -28,10 +30,10 @@ function siguiente_movimiento(jugador, estado) {
     if(mayor_de_peso == mayor_de_punteo) return mayor_de_punteo == 1 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
 
     var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
-    movimiento_oponente_h1 = minimax(oponente(jugador), tablero_h1, 2, puntuacion)
+    movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
     var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
-    movimiento_oponente_h2 = minimax(oponente(jugador), tablero_h2, 2, puntuacion)
+    movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
     
     punteo_oponente_h1 = puntuacion(jugador,mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
     punteo_oponente_h2 = puntuacion(jugador,mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
@@ -58,6 +60,14 @@ function llenar_tablero(estado) {
         }
     }
     return tablero
+}
+
+function casillas_vacias(tablero){
+    var cv = 0;
+    for(var i = 0; i<tablero.length;i++){
+        if(tablero[i] == VACIO) cv++
+    }
+    return cv;
 }
 
 //Oponente
