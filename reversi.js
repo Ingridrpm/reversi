@@ -79,7 +79,7 @@ function siguiente_movimiento(jugador, estado) {
             //break; //quiaar
         }
     }
-    if (negativos/cv >=0.8 ) { //si el acumuladao es < a -120
+    if (negativos/cv >=0.75 ) { //si el acumuladao es < a -120
         var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
         movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
