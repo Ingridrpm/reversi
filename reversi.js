@@ -30,6 +30,9 @@ function siguiente_movimiento(jugador, estado) {
 
                 var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
                 movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
+                
+                if(PESO_CASILLAS[movimiento_oponente_h1[1]]==120) return movimiento_oponente_h2[1]
+                if(PESO_CASILLAS[movimiento_oponente_h2[1]]==120) return movimiento_oponente_h1[1]
 
                 punteo_oponente_h1 = puntuacion(jugador, mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
                 punteo_oponente_h2 = puntuacion(jugador, mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
