@@ -15,8 +15,8 @@ function siguiente_movimiento(jugador, estado) {
         if (PESO_CASILLAS[movimientos[i]] == 120) return movimientos[i]
     }
     //console.log(movimientos)
-    movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
-    movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
+    movimiento_minimax_h1 = minimax(jugador, tablero, 5, peso_por_casilla)
+    movimiento_minimax_h2 = minimax(jugador, tablero, 3, puntuacion)
     //console.log(movimiento_minimax_h1[1])
     //console.log(movimiento_minimax_h2[1])
 
