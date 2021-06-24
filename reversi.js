@@ -64,7 +64,7 @@ function siguiente_movimiento(jugador, estado) {
             else return movimiento_minimax_h2[1]
         } else return movimiento_minimax_h2[1]
     }
-/*
+
     var hay_positivo = false;
     for (var i = 0; i < movimientos.length; i++) {
         if (PESO_CASILLAS[movimientos[i]] > 0) {
@@ -83,7 +83,7 @@ function siguiente_movimiento(jugador, estado) {
         punteo_oponente_h2 = puntuacion(jugador, mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
 
         return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
-    }*/
+    }
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
     if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h1[1]] >= 3) return movimiento_minimax_h1[1];
     if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h2[1]] >= 3) return movimiento_minimax_h2[1];
