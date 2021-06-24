@@ -12,6 +12,7 @@ function siguiente_movimiento(jugador, estado) {
     tablero = llenar_tablero(estado)
     var movimientos = movimientos_posibles(jugador, tablero);
     for (var i = 0; i < movimientos.length; i++) {
+        if (PESO_CASILLAS[movimientos[i]] == 120) return movimientos[i]
         if (PESO_CASILLAS[movimientos[i]] >= 20) return movimientos[i]
     }
     console.log(movimientos)
@@ -21,9 +22,9 @@ function siguiente_movimiento(jugador, estado) {
     console.log(movimiento_minimax_h2[1])
 
     var cv = casillas_vacias(tablero);
-    if (PESO_CASILLAS[movimiento_minimax_h1[1]] == -40 || PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
-        if (PESO_CASILLAS[movimiento_minimax_h1[1]] != -40) return movimiento_minimax_h1[1];
-        if (PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
+    if (PESO_CASILLAS[movimiento_minimax_h1[1]] <= -20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
+        if (PESO_CASILLAS[movimiento_minimax_h1[1]] > -20) return movimiento_minimax_h1[1];
+        if (PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
             if (cv < 5) {
                 var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
                 movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
