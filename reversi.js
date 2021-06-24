@@ -21,9 +21,9 @@ function siguiente_movimiento(jugador, estado) {
     //console.log(movimiento_minimax_h2[1])
 
     var cv = casillas_vacias(tablero);
-    if (PESO_CASILLAS[movimiento_minimax_h1[1]] <=-20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <=-20) {
-        if (PESO_CASILLAS[movimiento_minimax_h1[1]] >-20) return movimiento_minimax_h1[1];
-        if (PESO_CASILLAS[movimiento_minimax_h2[1]] <=-20) {
+    if (PESO_CASILLAS[movimiento_minimax_h1[1]] <= -20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
+        if (PESO_CASILLAS[movimiento_minimax_h1[1]] > -20) return movimiento_minimax_h1[1];
+        if (PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
             if (cv < 17) {
                 var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
                 movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
@@ -64,10 +64,29 @@ function siguiente_movimiento(jugador, estado) {
             else return movimiento_minimax_h2[1]
         } else return movimiento_minimax_h2[1]
     }
+/*
+    var hay_positivo = false;
+    for (var i = 0; i < movimientos.length; i++) {
+        if (PESO_CASILLAS[movimientos[i]] > 0) {
+            hay_positivo == true;
+            break;
+        }
+    }
+    if (!hay_positivo) {
+        var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
+        movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
+        var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
+        movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
+
+        punteo_oponente_h1 = puntuacion(jugador, mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
+        punteo_oponente_h2 = puntuacion(jugador, mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
+
+        return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
+    }*/
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
-    if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h1[1]] > 15) return movimiento_minimax_h1[1];
-    if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h2[1]] > 15) return movimiento_minimax_h2[1];
+    if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h1[1]] >= 15) return movimiento_minimax_h1[1];
+    if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h2[1]] >= 15) return movimiento_minimax_h2[1];
     if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h1[1]] < -10) return movimiento_minimax_h2[1];
     if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h2[1]] < -10) return movimiento_minimax_h1[1];
     if (cv > 5) {
@@ -274,8 +293,8 @@ function mejor_movimiento_modificado(movimientos, jugador, tablero, heuristica) 
         var m = movimientos[i]
         //console.log("tamaño:"+movimientos.length)
         //console.log("completo:"+movimientos)
-        if(movimientos.length>1){
-            if(PESO_CASILLAS[m]<=-20) {
+        if (movimientos.length > 1) {
+            if (PESO_CASILLAS[m] <= -20) {
                 movimientos.splice(i, 1);
                 //console.log(movimientos)
                 i = -1;
