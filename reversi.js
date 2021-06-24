@@ -65,14 +65,21 @@ function siguiente_movimiento(jugador, estado) {
         } else return movimiento_minimax_h2[1]
     }
 
-    var hay_positivo = false;
+    var hay_positivo = false; //var acumulado = 0
+    var positivos = 0;
+    var negativos = 0;
     for (var i = 0; i < movimientos.length; i++) {
-        if (PESO_CASILLAS[movimientos[i]] > 0) {
-            hay_positivo == true;
-            break;
+        if (movimientos[i] == VACIO && PESO_CASILLAS[movimientos[i]] > 0) { // quitar peso[casillas]
+            hay_positivo == true; //acumulado++
+            positivos++
+            //break; //quiaar
+        } else if (movimientos[i] == VACIO && PESO_CASILLAS[movimientos[i]] < 0) { // quitar peso[casillas]
+            //hay_positivo == true; //acumulado++
+            negativos++
+            //break; //quiaar
         }
     }
-    if (!hay_positivo) {
+    if (negativos/cv >=0.8 ) { //si el acumuladao es < a -120
         var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
         movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
