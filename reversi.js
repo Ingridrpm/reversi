@@ -17,6 +17,33 @@ function siguiente_movimiento(jugador, estado) {
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
     movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
 
+    if (PESO_CASILLAS[movimiento_minimax_h1[1]] == -40 || PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
+        if (PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
+            var e2 = 0;
+            for (var i = 0; i < movimientos.length; i++) {
+                if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
+                    if (movimientos[i] == movimiento_minimax_h1[1]) {
+                        movimientos.splice(i, 1);
+                        break;
+                    }
+                } else {
+                    if (movimientos[i] == movimiento_minimax_h1[1]) {
+                        movimientos.splice(i, 1);
+                        e2++;
+                        if(e2==2) break;
+                    }
+                    if (movimientos[i] == movimiento_minimax_h2[1]) {
+                        movimientos.splice(i, 1);
+                        e2++;
+                        if(e2==2) break;
+                    }
+                }
+            }
+            if(movimientos.length>0) return mejor_movimiento_modificado(movimientos,jugador,tablero,puntuacion)
+            else return movimiento_minimax_h2[1]
+        } else return movimiento_minimax_h2[1]
+    }
+
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
 
     var cv = casillas_vacias(tablero);
@@ -191,6 +218,29 @@ function convertir(movimiento, jugador, tablero, direccion) {
 function mejor_movimiento(jugador, tablero, heuristica) {
     var movimientos = movimientos_posibles(jugador, tablero)
 
+    if (!movimientos.length) {
+        if (!movimientos_posibles(oponente(jugador), tablero).length) {
+            return [valor_final(jugador, tablero), null]
+        }
+        return [heuristica(jugador, tablero), null]
+    }
+    var mayor = [-Infinity, 0]
+    var resultados = []
+    for (var i = 0; i < movimientos.length; i++) {
+        var m = movimientos[i]
+        var val = heuristica(jugador, mover(m, jugador, [...tablero]));
+        resultados.push(val)
+        if (mayor[0] < val) {
+            mayor[0] = val;
+            mayor[1] = m;
+        }
+
+    }
+    return mayor
+}
+
+//Mejor movimiento modificado
+function mejor_movimiento_modificado(movimientos, jugador, tablero, heuristica) {
     if (!movimientos.length) {
         if (!movimientos_posibles(oponente(jugador), tablero).length) {
             return [valor_final(jugador, tablero), null]
