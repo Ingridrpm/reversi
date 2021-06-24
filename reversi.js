@@ -3,7 +3,7 @@ const NEGRO = "1";
 const VACIO = ".";
 const FUERA = "*";
 var direcciones = new Array(-10, 10, -1, 1, -9, 11, 9, -11)
-var prof = 6;
+var prof = 5;
 
 function siguiente_movimiento(jugador, estado) {
     //0 = blanca
@@ -12,31 +12,36 @@ function siguiente_movimiento(jugador, estado) {
     tablero = llenar_tablero(estado)
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
     movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
-    
-    if(movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
+
+    if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
+
+    var cv = casillas_vacias(tablero);
+    if (cv > 6 && PESO_CASILLAS[movimiento_minimax_h1[1]] > 3) return movimiento_minimax_h1[1];
+
+    if (cv > 6) {
+        var punteo_h1 = peso_por_casilla(jugador, mover(movimiento_minimax_h1[1], jugador, [...tablero]))
+        var punteo_h2 = peso_por_casilla(jugador, mover(movimiento_minimax_h2[1], jugador, [...tablero]))
+
+        var mayor_de_peso = punteo_h1 > punteo_h2 ? 1 : 2;
+
+        punteo_h1 = puntuacion(jugador, mover(movimiento_minimax_h1[1], jugador, [...tablero]))
+        punteo_h2 = puntuacion(jugador, mover(movimiento_minimax_h2[1], jugador, [...tablero]))
 
 
-    var punteo_h1 = peso_por_casilla(jugador,mover(movimiento_minimax_h1[1], jugador, [...tablero]))
-    var punteo_h2 = peso_por_casilla(jugador,mover(movimiento_minimax_h2[1], jugador, [...tablero]))
+        var mayor_de_punteo = punteo_h1 > punteo_h2 ? 1 : 2;
 
-    var mayor_de_peso = punteo_h1>punteo_h2 ? 1 : 2;
+        if (mayor_de_peso == mayor_de_punteo) return mayor_de_punteo == 1 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
 
-    punteo_h1 = puntuacion(jugador,mover(movimiento_minimax_h1[1], jugador, [...tablero]))
-    punteo_h2 = puntuacion(jugador,mover(movimiento_minimax_h2[1], jugador, [...tablero]))
-
-    
-    var mayor_de_punteo = punteo_h1>punteo_h2 ? 1 : 2;
-    
-    if(mayor_de_peso == mayor_de_punteo) return mayor_de_punteo == 1 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
+    } 
 
     var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
     movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
     var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
     movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
-    
-    punteo_oponente_h1 = puntuacion(jugador,mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
-    punteo_oponente_h2 = puntuacion(jugador,mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
+
+    punteo_oponente_h1 = puntuacion(jugador, mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
+    punteo_oponente_h2 = puntuacion(jugador, mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
 
     return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
 }
@@ -62,10 +67,10 @@ function llenar_tablero(estado) {
     return tablero
 }
 
-function casillas_vacias(tablero){
+function casillas_vacias(tablero) {
     var cv = 0;
-    for(var i = 0; i<tablero.length;i++){
-        if(tablero[i] == VACIO) cv++
+    for (var i = 0; i < tablero.length; i++) {
+        if (tablero[i] == VACIO) cv++
     }
     return cv;
 }
@@ -81,7 +86,7 @@ function puntuacion(jugador, tablero) {
     var puntuacion_jugador = 0;
     var puntuacion_oponente = 0;
     var op = oponente(jugador)
-    for (var i = 0; i< tablero.length; i++) {
+    for (var i = 0; i < tablero.length; i++) {
         var ficha = tablero[i]
         if (ficha == jugador) puntuacion_jugador++;
         if (ficha == op) puntuacion_oponente++;
@@ -179,20 +184,20 @@ function convertir(movimiento, jugador, tablero, direccion) {
 
 //Algoritmos
 //Mejor movimiento
-function mejor_movimiento(jugador,tablero,heuristica){
+function mejor_movimiento(jugador, tablero, heuristica) {
     var movimientos = movimientos_posibles(jugador, tablero)
 
     if (!movimientos.length) {
         if (!movimientos_posibles(oponente(jugador), tablero).length) {
             return [valor_final(jugador, tablero), null]
         }
-        return [heuristica(jugador,tablero),null]
+        return [heuristica(jugador, tablero), null]
     }
     var mayor = [-Infinity, 0]
     var resultados = []
     for (var i = 0; i < movimientos.length; i++) {
         var m = movimientos[i]
-        var val = heuristica(jugador,mover(m, jugador, [...tablero]));
+        var val = heuristica(jugador, mover(m, jugador, [...tablero]));
         resultados.push(val)
         if (mayor[0] < val) {
             mayor[0] = val;
