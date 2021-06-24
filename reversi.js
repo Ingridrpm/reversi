@@ -3,7 +3,7 @@ const NEGRO = "1";
 const VACIO = ".";
 const FUERA = "*";
 var direcciones = new Array(-10, 10, -1, 1, -9, 11, 9, -11)
-var prof = 4;
+var prof = 5;
 
 function siguiente_movimiento(jugador, estado) {
     //0 = blanca
@@ -277,7 +277,7 @@ function mejor_movimiento_modificado(movimientos, jugador, tablero, heuristica) 
         if(movimientos.length>1){
             if(PESO_CASILLAS[m]<=-20) {
                 movimientos.splice(i, 1);
-                console.log(movimientos)
+                //console.log(movimientos)
                 i = -1;
                 continue;
             }
