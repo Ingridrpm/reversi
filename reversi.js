@@ -3,7 +3,7 @@ const NEGRO = "1";
 const VACIO = ".";
 const FUERA = "*";
 var direcciones = new Array(-10, 10, -1, 1, -9, 11, 9, -11)
-var prof = 5;
+var prof = 3;
 
 function siguiente_movimiento(jugador, estado) {
     //0 = blanca
