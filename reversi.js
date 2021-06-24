@@ -68,7 +68,9 @@ function siguiente_movimiento(jugador, estado) {
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
 
     if (cv > 5 && PESO_CASILLAS[movimiento_minimax_h1[1]] > 3) return movimiento_minimax_h1[1];
-    if (cv > 2 && PESO_CASILLAS[movimiento_minimax_h1[1]] < -30) return movimiento_minimax_h2[1];
+    if (cv > 5 && PESO_CASILLAS[movimiento_minimax_h2[1]] > 3) return movimiento_minimax_h2[1];
+    if (cv > 2 && PESO_CASILLAS[movimiento_minimax_h1[1]] < -10) return movimiento_minimax_h2[1];
+    if (cv > 2 && PESO_CASILLAS[movimiento_minimax_h2[1]] < -10) return movimiento_minimax_h1[1];
     if (cv > 5) {
         var punteo_h1 = peso_por_casilla(jugador, mover(movimiento_minimax_h1[1], jugador, [...tablero]))
         var punteo_h2 = peso_por_casilla(jugador, mover(movimiento_minimax_h2[1], jugador, [...tablero]))
