@@ -15,8 +15,8 @@ app.get('/', function (req, res) {
 app.get('/info', function (req, res) {
     var info = "Ingrid Pérez Mena";
     info += "<br/>Profundidad de minimax: " + reversi.prof;
-    info += "<br/>version 10"
-    info += "<br/>=-20, evaluar 120 primero"
+    info += "<br/>version 11"
+    info += "<br/>=-20, evaluar 120 primero, no evaluar 20"
     res.send(info)
 });
 

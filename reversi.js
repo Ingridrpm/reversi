@@ -13,7 +13,6 @@ function siguiente_movimiento(jugador, estado) {
     var movimientos = movimientos_posibles(jugador, tablero);
     for (var i = 0; i < movimientos.length; i++) {
         if (PESO_CASILLAS[movimientos[i]] == 120) return movimientos[i]
-        if (PESO_CASILLAS[movimientos[i]] >= 20) return movimientos[i]
     }
     console.log(movimientos)
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
@@ -68,9 +67,9 @@ function siguiente_movimiento(jugador, estado) {
 
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
 
-    if (cv > 6 && PESO_CASILLAS[movimiento_minimax_h1[1]] > 3) return movimiento_minimax_h1[1];
+    if (cv > 5 && PESO_CASILLAS[movimiento_minimax_h1[1]] > 3) return movimiento_minimax_h1[1];
     if (cv > 2 && PESO_CASILLAS[movimiento_minimax_h1[1]] < -30) return movimiento_minimax_h2[1];
-    if (cv > 6) {
+    if (cv > 5) {
         var punteo_h1 = peso_por_casilla(jugador, mover(movimiento_minimax_h1[1], jugador, [...tablero]))
         var punteo_h2 = peso_por_casilla(jugador, mover(movimiento_minimax_h2[1], jugador, [...tablero]))
 
