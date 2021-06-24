@@ -17,32 +17,34 @@ function siguiente_movimiento(jugador, estado) {
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
     movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
 
-    if (PESO_CASILLAS[movimiento_minimax_h1[1]] == -40 || PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
-        if (PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
-            var e2 = 0;
-            for (var i = 0; i < movimientos.length; i++) {
-                if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
-                    if (movimientos[i] == movimiento_minimax_h1[1]) {
-                        movimientos.splice(i, 1);
-                        break;
-                    }
-                } else {
-                    if (movimientos[i] == movimiento_minimax_h1[1]) {
-                        movimientos.splice(i, 1);
-                        e2++;
-                        if(e2==2) break;
-                    }
-                    if (movimientos[i] == movimiento_minimax_h2[1]) {
-                        movimientos.splice(i, 1);
-                        e2++;
-                        if(e2==2) break;
-                    }
+    if (PESO_CASILLAS[movimiento_minimax_h1[1]] != -40) return movimiento_minimax_h1[1];
+    if (PESO_CASILLAS[movimiento_minimax_h2[1]] == -40) {
+        var e2 = 0;
+        for (var i = 0; i < movimientos.length; i++) {
+            if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
+                if (movimientos[i] == movimiento_minimax_h1[1]) {
+                    movimientos.splice(i, 1);
+                    break;
+                }
+            } else {
+                if (movimientos[i] == movimiento_minimax_h1[1]) {
+                    movimientos.splice(i, 1);
+                    e2++;
+                    i--;
+                    if (e2 == 2) break;
+                }
+                if (movimientos[i] == movimiento_minimax_h2[1]) {
+                    movimientos.splice(i, 1);
+                    e2++;
+                    i--;
+                    if (e2 == 2) break;
                 }
             }
-            if(movimientos.length>0) return mejor_movimiento_modificado(movimientos,jugador,tablero,puntuacion)
-            else return movimiento_minimax_h2[1]
-        } else return movimiento_minimax_h2[1]
-    }
+        }
+        if (movimientos.length > 0) return mejor_movimiento_modificado(movimientos, jugador, tablero, puntuacion)
+        else return movimiento_minimax_h2[1]
+    } else return movimiento_minimax_h2[1]
+
 
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
 
