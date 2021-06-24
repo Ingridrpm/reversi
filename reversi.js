@@ -3,7 +3,7 @@ const NEGRO = "1";
 const VACIO = ".";
 const FUERA = "*";
 var direcciones = new Array(-10, 10, -1, 1, -9, 11, 9, -11)
-var prof = 3;
+var prof = 4;
 
 function siguiente_movimiento(jugador, estado) {
     //0 = blanca
@@ -24,7 +24,7 @@ function siguiente_movimiento(jugador, estado) {
     if (PESO_CASILLAS[movimiento_minimax_h1[1]] <=-20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <=-20) {
         if (PESO_CASILLAS[movimiento_minimax_h1[1]] >-20) return movimiento_minimax_h1[1];
         if (PESO_CASILLAS[movimiento_minimax_h2[1]] <=-20) {
-            if (cv < 5) {
+            if (cv < 17) {
                 var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
                 movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
