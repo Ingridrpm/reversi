@@ -12,6 +12,12 @@ app.get('/', function (req, res) {
     res.send(v1+""+v2)
 });
 
+app.get('/info', function (req, res) {
+    var info = "Ingrid Pérez Mena";
+    info += "<br/>Profundidad de minimax: " + reversi.prof;
+    res.send(info)
+});
+
 var puerto = process.env.PORT || 3000;
 
 app.listen(puerto);

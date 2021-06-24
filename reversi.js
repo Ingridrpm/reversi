@@ -3,14 +3,15 @@ const NEGRO = "1";
 const VACIO = ".";
 const FUERA = "*";
 var direcciones = new Array(-10, 10, -1, 1, -9, 11, 9, -11)
+var prof = 5;
 
 function siguiente_movimiento(jugador, estado) {
     //0 = blanca
     //1 = negra
     //2 = vacio
     tablero = llenar_tablero(estado)
-    movimiento_minimax_h1 = minimax(jugador, tablero, 6, peso_por_casilla)
-    movimiento_minimax_h2 = minimax(jugador, tablero, 6, puntuacion)
+    movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
+    movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
     
     if(movimiento_minimax_h1 == movimiento_minimax_h2) return movimiento_minimax_h1[1];
     var punteo_h1 = peso_por_casilla(jugador,mover(movimiento_minimax_h1[1], jugador, [...tablero]))
@@ -27,10 +28,10 @@ function siguiente_movimiento(jugador, estado) {
     if(mayor_de_peso == mayor_de_punteo) return mayor_de_punteo == 1 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
 
     var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
-    movimiento_oponente_h1 = minimax(oponente(jugador), tablero_h1, 3, puntuacion)
+    movimiento_oponente_h1 = minimax(oponente(jugador), tablero_h1, 2, puntuacion)
 
     var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
-    movimiento_oponente_h2 = minimax(oponente(jugador), tablero_h2, 3, puntuacion)
+    movimiento_oponente_h2 = minimax(oponente(jugador), tablero_h2, 2, puntuacion)
     
     punteo_oponente_h1 = puntuacion(jugador,mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
     punteo_oponente_h2 = puntuacion(jugador,mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
@@ -262,4 +263,4 @@ function suma_absoluta(arr) {
     return result;
 }
 
-module.exports = { siguiente_movimiento };
+module.exports = { siguiente_movimiento, prof };
