@@ -14,11 +14,11 @@ function siguiente_movimiento(jugador, estado) {
     for (var i = 0; i < movimientos.length; i++) {
         if (PESO_CASILLAS[movimientos[i]] == 120) return movimientos[i]
     }
-    //console.log(movimientos)
+    console.log(movimientos)
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
     movimiento_minimax_h2 = minimax(jugador, tablero, prof, puntuacion)
-    //console.log(movimiento_minimax_h1[1])
-    //console.log(movimiento_minimax_h2[1])
+    console.log(movimiento_minimax_h1[1])
+    console.log(movimiento_minimax_h2[1])
 
     var cv = casillas_vacias(tablero);
     if (PESO_CASILLAS[movimiento_minimax_h1[1]] <=-20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <=-20) {
@@ -273,14 +273,18 @@ function mejor_movimiento_modificado(movimientos, jugador, tablero, heuristica) 
     var resultados = []
     for (var i = 0; i < movimientos.length; i++) {
         var m = movimientos[i]
+        console.log("tamaño:"+movimientos.length)
+        console.log("completo:"+movimientos)
         if(movimientos.length>1){
             if(PESO_CASILLAS[m]<=-20) {
                 movimientos.splice(i, 1);
-                i = 0;
+                console.log(movimientos)
+                i = -1;
                 continue;
             }
         }
         var val = heuristica(jugador, mover(m, jugador, [...tablero]));
+        console.log(val+"val")
         resultados.push(val)
         if (mayor[0] < val) {
             mayor[0] = val;
@@ -288,6 +292,7 @@ function mejor_movimiento_modificado(movimientos, jugador, tablero, heuristica) 
         }
 
     }
+    console.log("mayor:"+mayor)
     return mayor
 }
 
