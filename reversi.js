@@ -12,7 +12,7 @@ function siguiente_movimiento(jugador, estado) {
     tablero = llenar_tablero(estado)
     var movimientos = movimientos_posibles(jugador, tablero);
     for (var i = 0; i < movimientos.length; i++) {
-        if (PESO_CASILLAS[movimientos[i]] == 120) return movimientos[i]
+        if (PESO_CASILLAS[movimientos[i]] >= 20) return movimientos[i]
     }
     console.log(movimientos)
     movimiento_minimax_h1 = minimax(jugador, tablero, prof, peso_por_casilla)
@@ -64,7 +64,6 @@ function siguiente_movimiento(jugador, estado) {
             else return movimiento_minimax_h2[1]
         } else return movimiento_minimax_h2[1]
     }
-
 
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
 
