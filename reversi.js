@@ -45,8 +45,8 @@ function siguiente_movimiento(jugador, estado) {
 
                 var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
                 movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
-                //console.log(PESO_CASILLAS[movimiento_oponente_h1[1]])
-                //console.log(PESO_CASILLAS[movimiento_oponente_h2[1]])
+                //console.log("--"+PESO_CASILLAS[movimiento_oponente_h1[1]])
+                //console.log("--"+PESO_CASILLAS[movimiento_oponente_h2[1]])
                 if (PESO_CASILLAS[movimiento_oponente_h1[1]] == 120) return movimiento_minimax_h2[1];
                 if (PESO_CASILLAS[movimiento_oponente_h2[1]] == 120) return movimiento_minimax_h1[1];
 
@@ -54,7 +54,7 @@ function siguiente_movimiento(jugador, estado) {
                 punteo_oponente_h2 = puntuacion(jugador, mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
 
                 return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
-            }
+            } //else console.log("-------------")
             var e2 = 0;
             if(movimiento_minimax_h1[1] == movimiento_minimax_h2[1]){
                 var tablero_1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
@@ -91,7 +91,8 @@ function siguiente_movimiento(jugador, estado) {
                 var tablero_1 = mover(mmm, jugador, [...tablero])
                 movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)[1]
                 //console.log(PESO_CASILLAS[movimiento_oponente_1])
-                return PESO_CASILLAS[movimiento_oponente_1] == 120 ? movimiento_minimax_h1[1] : movimiento_oponente_1;
+                //console.log("Si " + PESO_CASILLAS[movimiento_oponente_1] + " == 120 debería retornar: " + movimiento_minimax_h1[1] + ", si no: " + movimiento_oponente_1)
+                return PESO_CASILLAS[movimiento_oponente_1] == 120 ? movimiento_minimax_h1[1] : mmm;
             }
             else return movimiento_minimax_h2[1]
         } else return movimiento_minimax_h2[1]
