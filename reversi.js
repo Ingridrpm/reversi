@@ -26,11 +26,17 @@ function siguiente_movimiento(jugador, estado) {
         movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)
         var tablero_2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
         movimiento_oponente_2 = mejor_movimiento(oponente(jugador), tablero_2, puntuacion)
+        //console.log("mo1: " + movimiento_oponente_1)
+        //console.log("mo2: " + movimiento_oponente_2)
+        //console.log("entra aqui")
+        //console.log(PESO_CASILLAS[movimiento_oponente_1[1]])
+        //console.log(PESO_CASILLAS[movimiento_oponente_2[1]])
         var es_120 = [true,true]
         if(PESO_CASILLAS[movimiento_oponente_1[1]] != 120) es_120[0] = false
         if(PESO_CASILLAS[movimiento_oponente_2[1]] != 120) es_120[1] = false
         if(!es_120[0] && es_120[1]) return movimiento_minimax_h1[1]; 
         if(es_120[0] && !es_120[1]) return movimiento_minimax_h2[1]; 
+        //console.log("aqui?")
         if (PESO_CASILLAS[movimiento_minimax_h1[1]] > -20) return movimiento_minimax_h1[1];
         if (PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
             if (cv < 17) {
@@ -50,6 +56,11 @@ function siguiente_movimiento(jugador, estado) {
                 return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
             }
             var e2 = 0;
+            if(movimiento_minimax_h1[1] == movimiento_minimax_h2[1]){
+                var tablero_1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
+                movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)
+                if(PESO_CASILLAS[movimiento_oponente_1[1]] != 120) return movimiento_minimax_h1[1]
+            }
             for (var i = 0; i < movimientos.length; i++) {
                 if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
                     if (movimientos[i] == movimiento_minimax_h1[1]) {
