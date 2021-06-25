@@ -59,7 +59,7 @@ function siguiente_movimiento(jugador, estado) {
             if(movimiento_minimax_h1[1] == movimiento_minimax_h2[1]){
                 var tablero_1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
                 movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)
-                if(PESO_CASILLAS[movimiento_oponente_1[1]] != 120) return movimiento_minimax_h1[1]
+                if(PESO_CASILLAS[movimiento_oponente_1[1]] != 120 && fichas(jugador,tablero)/(fichas(jugador,tablero)+fichas(oponente(jugador),tablero))<0.65) return movimiento_minimax_h1[1]
             }
             for (var i = 0; i < movimientos.length; i++) {
                 if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
@@ -156,6 +156,15 @@ function siguiente_movimiento(jugador, estado) {
 
     return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
 }
+
+function fichas(jugador,tablero){
+    var cv = 0;
+    for (var i = 0; i < tablero.length; i++) {
+        if (tablero[i] == jugador) cv++
+    }
+    return cv;
+}
+
 
 function llenar_tablero(estado) {
     var arrego_estado = estado.split("")
