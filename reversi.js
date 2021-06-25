@@ -10,54 +10,62 @@ function siguiente_movimiento(jugador, estado) {
     //1 = negra
     //2 = vacio
     tablero = llenar_tablero(estado)
+    
+    var cv = casillas_vacias(tablero);
     var movimientos = movimientos_posibles(jugador, tablero);
     for (var i = 0; i < movimientos.length; i++) {
-        if (PESO_CASILLAS[movimientos[i]] == 120) return movimientos[i]
+        if (PESO_CASILLAS[movimientos[i]] == 120 && cv<20) return movimientos[i]
     }
-    //console.log(movimientos)
+    console.log("Movimientos completos:" + movimientos)
     movimiento_minimax_h1 = minimax(jugador, tablero, 4, peso_por_casilla)
     movimiento_minimax_h2 = minimax(jugador, tablero, 3, puntuacion)
-    //console.log(movimiento_minimax_h1[1])
-    //console.log(movimiento_minimax_h2[1])
+    console.log("movimiento_minimax_h1: "+ movimiento_minimax_h1[1])
+    console.log("movimiento_minimax_h2: "+ movimiento_minimax_h2[1])
 
-    var cv = casillas_vacias(tablero);
     if (PESO_CASILLAS[movimiento_minimax_h1[1]] <= -20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
         var tablero_1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
         movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)
         var tablero_2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
         movimiento_oponente_2 = mejor_movimiento(oponente(jugador), tablero_2, puntuacion)
-        //console.log("mo1: " + movimiento_oponente_1)
-        //console.log("mo2: " + movimiento_oponente_2)
-        //console.log("entra aqui")
-        //console.log(PESO_CASILLAS[movimiento_oponente_1[1]])
-        //console.log(PESO_CASILLAS[movimiento_oponente_2[1]])
+        console.log("mo1: " + movimiento_oponente_1)
+        console.log("mo2: " + movimiento_oponente_2)
+        console.log("entra aqui")
+        console.log("Valor oponente 1: "+PESO_CASILLAS[movimiento_oponente_1[1]])
+        console.log("Valor oponente 2: " +PESO_CASILLAS[movimiento_oponente_2[1]])
         var es_120 = [true, true]
         if (PESO_CASILLAS[movimiento_oponente_1[1]] != 120) es_120[0] = false
         if (PESO_CASILLAS[movimiento_oponente_2[1]] != 120) es_120[1] = false
-        if (!es_120[0] && es_120[1]) return movimiento_minimax_h1[1];
-        if (es_120[0] && !es_120[1]) return movimiento_minimax_h2[1];
+        if (!es_120[0] && es_120[1] && cv <25) return movimiento_minimax_h1[1];
+        if (es_120[0] && !es_120[1] && cv <25) return movimiento_minimax_h2[1];
         if (es_120[0] && es_120[1]) {
-            if(movimientos.length <=2) return movimiento_minimax_h2[1];
+            console.log("aaaaaaaaaaaaaa")
+            if(movimientos.length <=2 && (movimiento_minimax_h1[1] != movimiento_minimax_h2[1])) return movimiento_minimax_h2[1];
             var mayor =[-Infinity,0]
             for (var i = 0; i < movimientos.length; i++) {
                 var m = movimientos[i]
                 if (PESO_CASILLAS[m] == 120) return m
                 var tablero_con_la_movida = mover(m, jugador, [...tablero]);
                 var val = puntuacion(jugador, tablero_con_la_movida);
+                console.log("iteracion " + i + ", mov: " + m + " val: " + val)
                 var respuesta = mejor_movimiento(oponente(jugador),tablero_con_la_movida,peso_por_casilla)[1]
                 
                 if (mayor[0] < val) {
+                    console.log("vaaaaaaaaya")
                     if(PESO_CASILLAS[respuesta] == 120 && mayor[1] == 0) {
                         mayor =[-Infinity,m]
+                        console.log("ke?")
                     } else if(PESO_CASILLAS[respuesta] == 120){
                         //se queda como está
+                        console.log("pedo?")
                     } else {
+                        console.log("ah?")
                         mayor =[val,m]
                     }
                     
                 }
 
             }
+            console.log(mayor)
             return mayor[1]
         }
         if (PESO_CASILLAS[movimiento_minimax_h1[1]] > -20) return movimiento_minimax_h1[1];
@@ -69,8 +77,8 @@ function siguiente_movimiento(jugador, estado) {
 
                 var tablero_h2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
                 movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
-                //console.log("--" + PESO_CASILLAS[movimiento_oponente_h1[1]])
-                //console.log("--" + PESO_CASILLAS[movimiento_oponente_h2[1]])
+                console.log("--" + PESO_CASILLAS[movimiento_oponente_h1[1]])
+                console.log("--" + PESO_CASILLAS[movimiento_oponente_h2[1]])
                 if (PESO_CASILLAS[movimiento_oponente_h1[1]] == 120) return movimiento_minimax_h2[1];
                 if (PESO_CASILLAS[movimiento_oponente_h2[1]] == 120) return movimiento_minimax_h1[1];
 
@@ -83,9 +91,9 @@ function siguiente_movimiento(jugador, estado) {
             if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
                 var tablero_1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
                 movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)
-                //console.log("aqui?" + fichas(jugador, tablero) / (fichas(jugador, tablero) + fichas(oponente(jugador), tablero)))
+                console.log("aqui?" + fichas(jugador, tablero) / (fichas(jugador, tablero) + fichas(oponente(jugador), tablero)))
                 if (PESO_CASILLAS[movimiento_oponente_1[1]] != 120 && fichas(jugador, tablero) / (fichas(jugador, tablero) + fichas(oponente(jugador), tablero)) < 0.63) return movimiento_minimax_h1[1]
-                //console.log("que?")
+                console.log("que?")
             }
             for (var i = 0; i < movimientos.length; i++) {
                 if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) {
@@ -108,15 +116,15 @@ function siguiente_movimiento(jugador, estado) {
                     }
                 }
             }
-            //console.log(movimientos)
+            console.log(movimientos)
             if (movimientos.length == 1) return movimientos[0]
             if (movimientos.length > 0) {
                 var mmm = mejor_movimiento_modificado(movimientos, jugador, tablero, puntuacion)[1]
                 var tablero_1 = mover(mmm, jugador, [...tablero])
                 movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)[1]
-                //console.log("mov oponente no es h1 ni h2: " + movimiento_oponente_1)
-                //console.log(PESO_CASILLAS[movimiento_oponente_1])
-                //console.log("Si " + PESO_CASILLAS[movimiento_oponente_1] + " == 120 debería retornar: " + movimiento_minimax_h1[1] + ", si no: " + movimiento_oponente_1)
+                console.log("mov oponente no es h1 ni h2: " + movimiento_oponente_1)
+                console.log(PESO_CASILLAS[movimiento_oponente_1])
+                console.log("Si " + PESO_CASILLAS[movimiento_oponente_1] + " == 120 debería retornar: " + movimiento_minimax_h1[1] + ", si no: " + mmm)
                 return PESO_CASILLAS[movimiento_oponente_1] == 120 ? movimiento_minimax_h1[1] : mmm;
             }
             else return movimiento_minimax_h2[1]

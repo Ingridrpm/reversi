@@ -12,6 +12,7 @@ app.get('/', function (req, res) {
     var estado = req.query.estado;
     e = estado;
     var resultado = reversi.siguiente_movimiento(turno, estado)+""
+    //console.log("retorna: " + resultado)
     var v1 = resultado == "null" ? 0 : parseInt(resultado.charAt(0))-1
     var v2 = resultado == "null" ? 0 : parseInt(resultado.charAt(1))-1
     res.send(v1+""+v2)
@@ -20,8 +21,8 @@ app.get('/', function (req, res) {
 app.get('/info', function (req, res) {
     var info = "Ingrid Pérez Mena";
     info += "<br/>Profundidad de minimax: " + reversi.prof;
-    info += "<br/>version 41"
-    info += "<br/>final final"
+    info += "<br/>version 42"
+    info += "<br/>espero que final final"
     res.send(info)
 });
 
