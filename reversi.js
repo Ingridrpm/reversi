@@ -22,6 +22,15 @@ function siguiente_movimiento(jugador, estado) {
 
     var cv = casillas_vacias(tablero);
     if (PESO_CASILLAS[movimiento_minimax_h1[1]] <= -20 || PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
+        var tablero_1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
+        movimiento_oponente_1 = mejor_movimiento(oponente(jugador), tablero_1, puntuacion)
+        var tablero_2 = mover(movimiento_minimax_h2[1], jugador, [...tablero])
+        movimiento_oponente_2 = mejor_movimiento(oponente(jugador), tablero_2, puntuacion)
+        var es_120 = [true,true]
+        if(PESO_CASILLAS[movimiento_oponente_1[1]] != 120) es_120[0] = false
+        if(PESO_CASILLAS[movimiento_oponente_2[1]] != 120) es_120[1] = false
+        if(!es_120[0] && es_120[1]) return movimiento_minimax_h1[1]; 
+        if(es_120[0] && !es_120[1]) return movimiento_minimax_h2[1]; 
         if (PESO_CASILLAS[movimiento_minimax_h1[1]] > -20) return movimiento_minimax_h1[1];
         if (PESO_CASILLAS[movimiento_minimax_h2[1]] <= -20) {
             if (cv < 17) {
@@ -32,8 +41,8 @@ function siguiente_movimiento(jugador, estado) {
                 movimiento_oponente_h2 = mejor_movimiento(oponente(jugador), tablero_h2, puntuacion)
                 //console.log(PESO_CASILLAS[movimiento_oponente_h1[1]])
                 //console.log(PESO_CASILLAS[movimiento_oponente_h2[1]])
-                if(PESO_CASILLAS[movimiento_oponente_h1[1]]==120) return movimiento_minimax_h2[1];
-                if(PESO_CASILLAS[movimiento_oponente_h2[1]]==120) return movimiento_minimax_h1[1];
+                if (PESO_CASILLAS[movimiento_oponente_h1[1]] == 120) return movimiento_minimax_h2[1];
+                if (PESO_CASILLAS[movimiento_oponente_h2[1]] == 120) return movimiento_minimax_h1[1];
 
                 punteo_oponente_h1 = puntuacion(jugador, mover(movimiento_oponente_h1[1], oponente(jugador), [...tablero_h1]))
                 punteo_oponente_h2 = puntuacion(jugador, mover(movimiento_oponente_h2[1], oponente(jugador), [...tablero_h2]))
@@ -83,7 +92,7 @@ function siguiente_movimiento(jugador, estado) {
             //break; //quiaar
         }
     }
-    if (negativos/cv >=0.75 ) { //si el acumuladao es < a -120
+    if (negativos / cv >= 0.75) { //si el acumuladao es < a -120
         var tablero_h1 = mover(movimiento_minimax_h1[1], jugador, [...tablero])
         movimiento_oponente_h1 = mejor_movimiento(oponente(jugador), tablero_h1, puntuacion)
 
@@ -96,16 +105,14 @@ function siguiente_movimiento(jugador, estado) {
         return punteo_oponente_h1 > punteo_oponente_h2 ? movimiento_minimax_h1[1] : movimiento_minimax_h2[1];
     }
     if (movimiento_minimax_h1[1] == movimiento_minimax_h2[1]) return movimiento_minimax_h1[1];
-    if(cv>15){
-        for (var i = 0; i < movimientos.length; i++) {
-            if (PESO_CASILLAS[movimientos[i]] == 20) return movimientos[i]
-        }
-        for (var i = 0; i < movimientos.length; i++) {
-            if (PESO_CASILLAS[movimientos[i]] == 15) return movimientos[i]
-        }
-        for (var i = 0; i < movimientos.length; i++) {
-            if (PESO_CASILLAS[movimientos[i]] == 5) return movimientos[i]
-        }
+    for (var i = 0; i < movimientos.length; i++) {
+        if (PESO_CASILLAS[movimientos[i]] == 20) return movimientos[i]
+    }
+    for (var i = 0; i < movimientos.length; i++) {
+        if (PESO_CASILLAS[movimientos[i]] == 15) return movimientos[i]
+    }
+    for (var i = 0; i < movimientos.length; i++) {
+        if (PESO_CASILLAS[movimientos[i]] == 5) return movimientos[i]
     }
     if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h1[1]] > 3) return movimiento_minimax_h1[1];
     if (cv > 15 && PESO_CASILLAS[movimiento_minimax_h2[1]] > 3) return movimiento_minimax_h2[1];
@@ -290,7 +297,7 @@ function mejor_movimiento(jugador, tablero, heuristica) {
     var resultados = []
     for (var i = 0; i < movimientos.length; i++) {
         var m = movimientos[i]
-        if(PESO_CASILLAS[m] == 120) return [0,m]
+        if (PESO_CASILLAS[m] == 120) return [0, m]
         var val = heuristica(jugador, mover(m, jugador, [...tablero]));
         resultados.push(val)
         if (mayor[0] < val) {
